@@ -1,0 +1,19 @@
+pipeline {
+	agent any
+	environment {
+		ENV="DEV"
+		PROJECT_NAME="home-iot-machine-load-test"
+	}
+	stages {
+		stage('Load Testing') {
+			steps{
+				bat 'jmeter -Jjmeter.save.saveservice.output_format=xml -n -t .jmeter//%PROJECT_NAME%.jmx -l %PROJECT_NAME%.jtl'
+			}
+		}
+		// stage('Reports') {
+		//	steps{
+		//		bat 'cd target && cp *.zip C:\\Users\\limwel.d.libradilla\\Documents\\Research\\mule-standalone-3.9.0\\apps\\home-iot-machine.zip'
+		//	}
+		// }
+	}
+}
