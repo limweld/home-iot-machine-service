@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+	<sub-flow name="getEmployeeControllerFlow">
+		<db:select config-ref="Postgres_Generic_Database_Configuration" doc:name="Database">
+			<db:parameterized-query><![CDATA[select * from employee]]></db:parameterized-query>
+		</db:select>
+		<custom-transformer mimeType="application/java" class="org.transform.api.EmployeeArrayRepository" doc:name="Transform"/>
+		<logger level="INFO" doc:name="Logger" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="addEmployeeControllerFlow">
+		<json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
+		<db:insert config-ref="Postgres_Generic_Database_Configuration" bulkMode="true" doc:name="Database">
+			<db:parameterized-query><![CDATA[insert into employee (firstname) values (#[payload.name])]]></db:parameterized-query>
+		</db:insert>
+		<custom-transformer mimeType="application/java" class="org.transform.api.EmployeeRepository" doc:name="Transform"/>
+		<logger level="INFO" doc:name="Logger" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="updateEmployeeControllerFlow">
+		<json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
+		<db:update config-ref="Postgres_Generic_Database_Configuration" bulkMode="true" doc:name="Database">
+			<db:parameterized-query><![CDATA[insert into employee (firstname) values (#[payload.name])]]></db:parameterized-query>
+		</db:update>
+		<custom-transformer mimeType="application/java" class="org.transform.api.EmployeeRepository" doc:name="Transform"/>
+		<logger message="#[payload]" level="INFO" doc:name="Logger"/>
+	</sub-flow>
+	<sub-flow name="deleteEmployeeControllerFlow">
+		<custom-transformer mimeType="application/java" class="org.transform.api.EmployeeRepository" doc:name="Transform"/>
+		<logger level="INFO" doc:name="Logger"/>
+	</sub-flow>
+</mule>

@@ -1,0 +1,18 @@
+pipeline {
+	agent any
+	environment {
+		ENV="DEV"
+	}
+	stages {
+		stage('Build') {
+			steps{
+				bat 'mvn clean package'
+			}
+		}
+		stage('Deploy') {
+			steps{
+				bat 'cd target && cp *.zip C:\\Users\\limwel.d.libradilla\\Documents\\Research\\mule-standalone-3.9.0\\apps\\home-iot-machine.zip'
+			}
+		}
+	}
+}

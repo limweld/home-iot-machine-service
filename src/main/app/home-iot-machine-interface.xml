@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+	<flow name="home-iot-machine-home">
+		<http:listener config-ref="Main_HTTP_Listener_Configuration" path="/*" doc:name="HTTP"/>
+		<http:static-resource-handler resourceBase="${app.home}/web" defaultFile="index.html" doc:name="HTTP Static Resource Handler"/>
+		<logger level="INFO" doc:name="Logger"/>
+	</flow>
+	 <flow name="home-iot-machineFlow">
+        <http:listener config-ref="Main_HTTP_Listener_Configuration" path="/api/*" doc:name="HTTP"/>
+        <apikit:router config-ref="Main_Router_Home_Iot_Machine_Config" doc:name="APIkit Router"/>
+        <exception-strategy ref="home-iot-machine-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy"/>
+    </flow>
+    <flow name="home-iot-machine-console">
+        <http:listener config-ref="Main_HTTP_Listener_Configuration" path="/console/*" doc:name="HTTP"/>
+        <apikit:console config-ref="Main_Router_Home_Iot_Machine_Config" doc:name="APIkit Console"/>
+    </flow>
+    <flow name="post:/employee/add:Main_Router_Home_Iot_Machine_Config">
+        <flow-ref name="addEmployeeControllerFlow" doc:name="addEmployeeControllerFlow"/>
+    </flow>
+	<flow name="post:/employee/update:Main_Router_Home_Iot_Machine_Config">
+		<flow-ref name="updateEmployeeControllerFlow" doc:name="updateEmployeeControllerFlow"/>
+	</flow>
+	<flow name="post:/employee/delete:Main_Router_Home_Iot_Machine_Config">
+		<flow-ref name="deleteEmployeeControllerFlow" doc:name="deleteEmployeeControllerFlow"/>
+	</flow>
+	<flow name="post:/employee/retrieve:Main_Router_Home_Iot_Machine_Config">
+		<flow-ref name="getEmployeeControllerFlow" doc:name="getEmployeeControllerFlow"/>
+	</flow>
+    
+</mule>
