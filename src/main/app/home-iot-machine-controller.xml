@@ -30,7 +30,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 	<sub-flow name="addEmployeeControllerFlow">
 		<json:json-to-object-transformer returnClass="java.lang.Object" doc:name="JSON to Object"/>
 		<db:insert config-ref="Postgres_Generic_Database_Configuration" bulkMode="true" doc:name="Database">
-			<db:parameterized-query><![CDATA[insert into accounts (username) values (#[payload.username])]]></db:parameterized-query>
+			<db:parameterized-query><![CDATA[insert into accounts (username,password,email,created_on) values (#[payload.username],#[payload.password],#[payload.email],NOW())]]></db:parameterized-query>
 		</db:insert>
 		<custom-transformer mimeType="application/java" class="org.transform.api.EmployeeRepository" doc:name="Transform"/>
 		<logger level="INFO" doc:name="Logger" message="Inserting accounts entries #[payload]"/>
