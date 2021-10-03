@@ -9,7 +9,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
 	<sub-flow name="getEmployeeControllerFlow">
 		<db:select config-ref="Postgres_Generic_Database_Configuration" doc:name="Database">
-			<db:parameterized-query><![CDATA[select * from employee]]></db:parameterized-query>
+			<db:parameterized-query><![CDATA[select * from accounts]]></db:parameterized-query>
 		</db:select>
 		<custom-transformer mimeType="application/java" class="org.transform.api.EmployeeArrayRepository" doc:name="Transform"/>
 		<logger level="INFO" doc:name="Logger" message="#[payload]"/>

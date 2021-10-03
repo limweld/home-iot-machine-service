@@ -26,7 +26,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	<flow name="post:/employee/delete:Main_Router_Home_Iot_Machine_Config">
 		<flow-ref name="deleteEmployeeControllerFlow" doc:name="deleteEmployeeControllerFlow"/>
 	</flow>
-	<flow name="post:/employee/retrieve:Main_Router_Home_Iot_Machine_Config">
+	<flow name="get:/employee/retrieve:Main_Router_Home_Iot_Machine_Config">
 		<flow-ref name="getEmployeeControllerFlow" doc:name="getEmployeeControllerFlow"/>
 	</flow>
     
