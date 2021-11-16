@@ -1,0 +1,14 @@
+pipeline {
+	agent any
+	environment {
+		ENV="DEV"
+		PROJECT_NAME="home-iot-machine-load-test"
+	}
+	stages {
+		stage('Regression Testing') {
+			steps{
+                bat 'newman run .postman//TestCollection.json'
+            }
+		}
+	}
+}
